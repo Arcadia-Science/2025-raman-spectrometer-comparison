@@ -1,1 +1,1 @@
-Sitemap: https://Arcadia-Science.github.io/2025-Raman-spectrometer-comparison/sitemap.xml
+Sitemap: https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/sitemap.xml
