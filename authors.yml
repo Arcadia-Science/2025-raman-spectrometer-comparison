@@ -15,17 +15,21 @@
 # - validation
 # - visualization
 authors:
-  - name: Evan Kiefl
-    orcid: 0000-0002-6473-0921
+  - name: Tara Essock-Burns
+    orcid: 
     roles:
-      - conceptualization
+     - 
+  - name: Ilya Kolb
+    orcid: 
+    roles:
+     - 
+  - name: Ryan Lane
+    orcid: 
+    roles:
       - formal analysis
-      - investigation
       - methodology
       - software
-  - name: Contributor Name
-    orcid: 0000-0001-2345-6789
+  - name: Sunanda Sharma
+    orcid: 
     roles:
-      - data curation
-      - validation
-  - name: Another Author
+      - 

@@ -1,5 +1,5 @@
 pub:
   org: "Arcadia-Science"
-  repo: "notebook-pub-template"
-  title: "This is the title for the notebook pub template demo"
-  google_analytics: "G-FMENQL377V"
+  repo: "2025-raman-spectrometer-comparison"
+  title: "Comparison of spontaneous Raman spectrometers"
+  google_analytics: "G-G0FG8RPQPH"
