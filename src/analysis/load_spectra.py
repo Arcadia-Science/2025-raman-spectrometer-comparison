@@ -59,29 +59,32 @@ def tar_wrapper_multiple(
 
 def load_acetonitrile_spectra() -> tuple[list[RamanSpectrum], list[str]]:
     """Load acetonitrile spectra from each instrument."""
-    # Specify file paths
-    mapped_filepaths = {
-        "horiba": DATA_DIRECTORY / "Horiba_MacroRAM/acetonitrile.txt",
-        "openraman": DATA_DIRECTORY / "OpenRAMAN/acetonitrile_n_n_n_solid_10000_0_5.csv",
-        "renishaw": DATA_DIRECTORY / "Renishaw_Qontor/acetonitrile_5x.txt",
-        "wasatch": DATA_DIRECTORY / "Wasatch_WP785X/acetonitrile.csv",
+    # Map spectrometer info to file paths
+    filepaths = {
+        ("horiba", 785): DATA_DIRECTORY / "Horiba_MacroRAM/acetonitrile.txt",
+        ("renishaw", 785): DATA_DIRECTORY / "Renishaw_Qontor/acetonitrile_5x.txt",
+        ("wasatch", 785): DATA_DIRECTORY / "Wasatch_WP785X/acetonitrile.csv",
+        ("openraman", 532): DATA_DIRECTORY / "OpenRAMAN/acetonitrile_n_n_n_solid_10000_0_5.csv",
+        ("wasatch", 532): DATA_DIRECTORY / "Wasatch_WP532X/acetonitrile.csv",
     }
     openraman_neon_calibration = DATA_DIRECTORY / "OpenRAMAN/neon_n_n_n_solid_10000_0_5.csv"
 
-    # Compile spectra
-    mapped_spectra = {
-        "horiba": RamanSpectrum.from_horiba_txtfile(mapped_filepaths["horiba"]),
-        "openraman": RamanSpectrum.from_openraman_csvfiles(
-            mapped_filepaths["openraman"],
+    # Load spectra
+    spectra = [
+        RamanSpectrum.from_horiba_txtfile(filepaths[("horiba", 785)]),
+        RamanSpectrum.from_renishaw_txtfile(filepaths[("renishaw", 785)]),
+        RamanSpectrum.from_wasatch_csvfile(filepaths[("wasatch", 785)]),
+        RamanSpectrum.from_openraman_csvfiles(
+            filepaths[("openraman", 532)],
             openraman_neon_calibration,
-            mapped_filepaths["openraman"],
+            filepaths[("openraman", 532)],
         ),
-        "renishaw": RamanSpectrum.from_renishaw_txtfile(mapped_filepaths["renishaw"]),
-        "wasatch": RamanSpectrum.from_wasatch_csvfile(mapped_filepaths["wasatch"]),
-    }
-    instruments = list(mapped_spectra.keys())
-    spectra = list(mapped_spectra.values())
-    return spectra, instruments
+        RamanSpectrum.from_generic_csvfile(filepaths[("wasatch", 532)]),
+    ]
+
+    # Convert spectrometer info into DataFrame
+    dataframe = pd.DataFrame.from_records(list(filepaths.keys()), columns=["instrument", "λ_nm"])
+    return spectra, dataframe
 
 
 def load_cc124_tap_spectra() -> tuple[list[RamanSpectrum], list[str]]:
@@ -108,20 +111,28 @@ def load_cc124_tap_spectra() -> tuple[list[RamanSpectrum], list[str]]:
     wavenumbers_cm1, intensities, _positions = read_renishaw_multipoint_txt(txt_filepath)
     renishaw_spectrum = RamanSpectrum(wavenumbers_cm1, intensities[0, :])
 
-    # Wasatch
+    # Wasatch 532 nm
+    csv_filepath = DATA_DIRECTORY / "Wasatch_WP532X/CC-124_TAP_Pos-4-002_001.csv"
+    wasatch_532_spectrum = RamanSpectrum.from_generic_csvfile(csv_filepath)
+
+    # Wasatch 785 nm
     csv_filepath = DATA_DIRECTORY / "Wasatch_WP785X/CC-124_TAP_WP-02071.csv"
-    wasatch_spectrum = RamanSpectrum.from_wasatch_csvfile(csv_filepath)
+    wasatch_785_spectrum = RamanSpectrum.from_wasatch_csvfile(csv_filepath)
 
     # Compile spectra
     mapped_spectra = {
-        "horiba": horiba_spectrum,
-        "openraman": openraman_spectrum,
-        "renishaw": renishaw_spectrum,
-        "wasatch": wasatch_spectrum,
+        ("horiba", 785): horiba_spectrum,
+        ("renishaw", 785): renishaw_spectrum,
+        ("wasatch", 785): wasatch_785_spectrum,
+        ("openraman", 532): openraman_spectrum,
+        ("wasatch", 532): wasatch_532_spectrum,
     }
-    instruments = list(mapped_spectra.keys())
     spectra = list(mapped_spectra.values())
-    return spectra, instruments
+
+    # Convert spectrometer info into DataFrame
+    spectrometer_info = list(mapped_spectra.keys())
+    dataframe = pd.DataFrame.from_records(spectrometer_info, columns=["instrument", "λ_nm"])
+    return spectra, dataframe
 
 
 def load_chlamy_spectra():
@@ -136,32 +147,33 @@ def load_chlamy_spectra():
     }
 
     mapped_tarpaths = {
-        "horiba": Path("data/Horiba_MacroRAM/chlamy_spectra.tar"),
-        "openraman": Path("data/OpenRAMAN/chlamy_spectra.tar"),
-        "renishaw": Path("data/Renishaw_Qontor/chlamy_spectra.tar"),
-        "wasatch": Path("data/Wasatch_WP785X/chlamy_spectra.tar"),
+        ("openraman", 532): Path("data/OpenRAMAN/chlamy_spectra.tar"),
+        ("wasatch", 532): Path("data/Wasatch_WP532X/chlamy_spectra.tar"),
+        ("renishaw", 785): Path("data/Renishaw_Qontor/chlamy_spectra.tar"),
+        ("wasatch", 785): Path("data/Wasatch_WP785X/chlamy_spectra.tar"),
     }
     mapped_patterns = {
-        "horiba": "./chlamy_spectra/CC*.txt",
-        "openraman": "./chlamy_spectra/CC-*/Pos*.csv",
-        "renishaw": "./chlamy_spectra/2024*_cells*.txt",
-        "wasatch": "./chlamy_spectra/enlighten*.csv",
+        ("openraman", 532): "./chlamy_spectra/CC-*/Pos*.csv",
+        ("wasatch", 532): "./chlamy_spectra/CC-*/Pos*.csv",
+        ("renishaw", 785): "./chlamy_spectra/2024*_cells*.txt",
+        ("wasatch", 785): "./chlamy_spectra/enlighten*.csv",
     }
     mapped_readers = {
-        "horiba": RamanSpectrum.from_horiba_txtfile,
-        "openraman": RamanSpectrum.from_openraman_csvfiles,
-        "renishaw": read_renishaw_multipoint_txt,
-        "wasatch": RamanSpectrum.from_wasatch_csvfile,
+        ("openraman", 532): RamanSpectrum.from_openraman_csvfiles,
+        ("wasatch", 532): RamanSpectrum.from_generic_csvfile,
+        ("renishaw", 785): read_renishaw_multipoint_txt,
+        ("wasatch", 785): RamanSpectrum.from_wasatch_csvfile,
     }
 
     spectra = []
     instrument_data = []
+    wavelength_data = []
     strain_data = []
     media_data = []
     # Big loopity loop through all the cell spectra within each tar file
-    for instrument, tarpath in mapped_tarpaths.items():
-        pattern = mapped_patterns[instrument]
-        reader = mapped_readers[instrument]
+    for (instrument, wavelength_nm), tarpath in mapped_tarpaths.items():
+        pattern = mapped_patterns[(instrument, wavelength_nm)]
+        reader = mapped_readers[(instrument, wavelength_nm)]
         with tarfile.open(tarpath, "r") as tar:
             for member in tar.getmembers():
                 if fnmatch(member.name, pattern):
@@ -184,6 +196,7 @@ def load_chlamy_spectra():
                         )
                         spectra.append(spectrum)
                         instrument_data.append(instrument)
+                        wavelength_data.append(wavelength_nm)
                         strain_data.append(strain)
                         media_data.append(medium)
 
@@ -198,10 +211,11 @@ def load_chlamy_spectra():
                             spectrum = RamanSpectrum(wavenumbers_cm1, intensities[i, :])
                             spectra.append(spectrum)
                             instrument_data.append(instrument)
+                            wavelength_data.append(wavelength_nm)
                             strain_data.append(strain)
                             media_data.append(medium)
 
-                    # Load Horiba and Wasatch spectra
+                    # Load Wasatch spectra
                     else:
                         spectrum = tar_wrapper_single(
                             tarpath=tarpath,
@@ -210,6 +224,7 @@ def load_chlamy_spectra():
                         )
                         spectra.append(spectrum)
                         instrument_data.append(instrument)
+                        wavelength_data.append(wavelength_nm)
                         strain_data.append(strain)
                         media_data.append(medium)
 
@@ -217,9 +232,10 @@ def load_chlamy_spectra():
     # to each spectrum
     data = {
         "instrument": instrument_data,
+        "λ_nm": wavelength_data,
         "species": None,  # placeholder
         "strain": strain_data,
-        "medium": media_data
+        "medium": media_data,
     }
     dataframe = pd.DataFrame(data)
     dataframe["species"] = dataframe["strain"].map(species)
