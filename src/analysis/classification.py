@@ -183,7 +183,8 @@ class BatchClassifier:
         predictions = {}
 
         # Run through each classifier
-        for model in tqdm(self.classifiers):
+        disable = not self.verbose
+        for model in tqdm(self.classifiers, disable=disable):
             model_name = model.__name__
             start_time = time.time()
 
