@@ -182,6 +182,8 @@ def load_chlamy_spectra():
                     medium_matches = [re.search(medium, member.name) for medium in media]
                     strain = next(match for match in strain_matches if match is not None).group()
                     medium = next(match for match in medium_matches if match is not None).group()
+                    if medium == "MN":
+                        medium = "M-N"
 
                     # Load OpenRAMAN spectra
                     if instrument == "openraman":
