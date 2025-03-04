@@ -26,12 +26,12 @@ def get_custom_colorpalette() -> dict[str | tuple[str, str], str]:
 
     # color palette for each (strain, medium) combination
     chlamy_color_palette = {
-        ("CC-124", "TAP"): apc.aegean.hex_code,
-        ("CC-125", "TAP"): apc.sky.hex_code,
-        ("CC-1373", "TAP"): apc.denim.hex_code,
-        ("CC-124", "MN"): apc.amber.hex_code,
-        ("CC-125", "MN"): apc.dress.hex_code,
-        ("CC-1373", "MN"): apc.mars.hex_code,
+        ("CC-124", "TAP"): apc.denim.hex_code,
+        ("CC-125", "TAP"): apc.aegean.hex_code,
+        ("CC-1373", "TAP"): apc.dusk.hex_code,
+        ("CC-124", "M-N"): apc.tangerine.hex_code,
+        ("CC-125", "M-N"): apc.dragon.hex_code,
+        ("CC-1373", "M-N"): apc.redwood.hex_code,
     }
 
     # merge palettes
