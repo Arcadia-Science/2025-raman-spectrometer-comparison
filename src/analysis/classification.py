@@ -1,3 +1,30 @@
+"""
+# Multi-classifier evaluation framework
+
+This module provides a unified framework for running and comparing multiple machine learning
+classifiers on the same dataset. It facilitates side-by-side performance evaluation using
+consistent metrics.
+
+## Origins
+This module is a refactoring and enhancement of the original work by
+[Shankar Rao Pandala](https://github.com/shankarpandala), author of
+[lazypredict](https://github.com/shankarpandala/lazypredict). While the core concepts and approach
+were inspired by their work, this implementation addresses several issues in the
+original codebase:
+- Fixed stability issues present in the latest version of the original repository
+- Improved code organization and readability
+- Enhanced documentation and type hints
+
+## Features
+- Run multiple classifiers with a single unified interface
+- Consistent preprocessing and cross-validation across all models
+- Standardized performance metrics for fair comparison
+- Flexible architecture for adding new classifiers
+
+## Usage
+See the example in `BatchClassifier`.
+"""
+
 import time
 from pprint import pprint
 
