@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Interface</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        @import url("css/main.css");
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 0px;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            margin-right: 5px;
+            font-weight: 500;
+        }
+        
+        .tab-button:hover {
+            background-color: #ddd;
+        }
+        
+        .tab-button.active {
+            background-color: #71ac5a;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Hide all tab content by default */
+        .tab-content {
+            display: none;
+        }
+        
+        /* Show the default active tab */
+        #tab1 {
+            display: block;
+        }
+        
+        /* Sample table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f8f8;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h2>Acquisition parameters</h2>
+    
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'tab1')">Horiba MacroRAM</button>
+        <button class="tab-button" onclick="openTab(event, 'tab2')">Renishaw inVia Qontor</button>
+        <button class="tab-button" onclick="openTab(event, 'tab3')">Wasatch WP 785X</button>
+        <button class="tab-button" onclick="openTab(event, 'tab4')">Wasatch WP 532X</button>
+        <button class="tab-button" onclick="openTab(event, 'tab5')">OpenRAMAN</button>
+    </div>
+
+    <div id="tab1" class="tab-content">
+        <h3>Horiba MacroRAM</h3>
+        <div class="tab-description">
+            <p>
+                The Horiba MacroRAM is a compact Raman benchtop system with a probe attachment and manual focusing stage. We acquired the data using the Horiba LabSpec software.
+            </p>
+        </div>
+        </body>
+        <table>
+            <thead>
+                <tr>
+                    <th>-</th>
+                    <th>Acetonitrile</th>
+                    <th>Chlamydomonas cells</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wavelength</td>
+                    <td>785 nm</td>
+                    <td>785 nm</td>
+                </tr>
+                <tr>
+                    <td>Power</td>
+                    <td>60 mW</td>
+                    <td>50 mW</td>
+                </tr>
+                <tr>
+                    <td>Exposure</td>
+                    <td>10 s</td>
+                    <td>10 s</td>
+                </tr>
+                <tr>
+                    <td>Num averages</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <h3>Renishaw inVia Qontor</h3>
+        <div class="tab-description">
+            <p>
+                The Renishaw inVia Qontor is a confocal Raman system built on a Leica microscope and equipped with an automated mapping stage. We recorded spectra of acetonitrile and Chlamydomonas using a 5x and a 50x LWD objective, respectively. We prepared slides of Chlamydomonas and focused using the built-in camera. We acquired the data using the Renishaw WiRE software.
+            </p>
+        </div>
+        </body>
+        <table>
+            <thead>
+                <tr>
+                    <th>-</th>
+                    <th>Acetonitrile</th>
+                    <th>Chlamydomonas cells</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wavelength</td>
+                    <td>785 nm</td>
+                    <td>785 nm</td>
+                </tr>
+                <tr>
+                    <td>Power</td>
+                    <td>Not measured</td>
+                    <td>16.3 mW</td>
+                </tr>
+                <tr>
+                    <td>Exposure</td>
+                    <td>10 s</td>
+                    <td>5–10 s</td>
+                </tr>
+                <tr>
+                    <td>Num averages</td>
+                    <td>1</td>
+                    <td>5–20</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <h3>Wasatch WP 785X</h3>
+        <div class="tab-description">
+            <p>
+                The Wasatch WP 785X is a compact system with a probe attachment, integrated illumination source, and no stage. We built a holder and stage for this system. We acquired the data using the Wasatch Enlighten software.
+            </p>
+        </div>
+        </body>
+        <table>
+            <thead>
+                <tr>
+                    <th>-</th>
+                    <th>Acetonitrile</th>
+                    <th>Chlamydomonas cells</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wavelength</td>
+                    <td>785 nm</td>
+                    <td>785 nm</td>
+                </tr>
+                <tr>
+                    <td>Power</td>
+                    <td>100 mW</td>
+                    <td>50 mW</td>
+                </tr>
+                <tr>
+                    <td>Exposure</td>
+                    <td>1 s</td>
+                    <td>3 s</td>
+                </tr>
+                <tr>
+                    <td>Num averages</td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab4" class="tab-content">
+        <h3>Wasatch WP 532X</h3>
+        <div class="tab-description">
+            <p>
+                The Wasatch WP 532X is a compact system with an external Cobolt laser, a probe attachment, and no stage. We built a holder and stage for this system. We acquired the data using the Wasatch Enlighten software.
+            </p>
+        </div>
+        </body>
+        <table>
+            <thead>
+                <tr>
+                    <th>-</th>
+                    <th>Acetonitrile</th>
+                    <th>Chlamydomonas cells</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wavelength</td>
+                    <td>532 nm</td>
+                    <td>532 nm</td>
+                </tr>
+                <tr>
+                    <td>Power</td>
+                    <td>5 mW</td>
+                    <td>5 mW</td>
+                </tr>
+                <tr>
+                    <td>Exposure</td>
+                    <td>1 s</td>
+                    <td>1 s</td>
+                </tr>
+                <tr>
+                    <td>Num averages</td>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab5" class="tab-content">
+        <h3>OpenRAMAN</h3>
+        <div class="tab-description">
+            <p>
+                The <a href="https://www.open-raman.org/build/starter-edition/">OpenRAMAN starter edition</a> is a low-cost open-source Raman spectroscopy system, originally conceived by Luc Boussemaere. We have previously used and described this system in our research (<a href="https://doi.org/10.57844/arcadia-cd7e-443b">Avasthi et al., 2024</a>; <a href="https://doi.org/10.57844/arcadia-cd7e-443b">Braverman et al., 2025</a>), but we’ve modified it to achieve higher throughput by adding a motorized stage. We acquired the data using the <a href="https://www.open-raman.org/build/software/">Spectrum Analyzer suite (v_r123)</a> and <a href="https://micro-manager.org/">µManager</a> (version 2.0.3).
+            </p>
+        </div>
+        </body>
+        <table>
+            <thead>
+                <tr>
+                    <th>-</th>
+                    <th>Acetonitrile</th>
+                    <th>Chlamydomonas cells</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wavelength</td>
+                    <td>532 nm</td>
+                    <td>532 nm</td>
+                </tr>
+                <tr>
+                    <td>Power</td>
+                    <td>4.5 mW</td>
+                    <td>4.5 mW</td>
+                </tr>
+                <tr>
+                    <td>Exposure</td>
+                    <td>10 s</td>
+                    <td>5 s</td>
+                </tr>
+                <tr>
+                    <td>Num averages</td>
+                    <td>5</td>
+                    <td>2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            var tabcontent = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            // Remove "active" class from all tab buttons
+            var tabbuttons = document.getElementsByClassName("tab-button");
+            for (var i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            
+            // Show the current tab and add "active" class to the button
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>

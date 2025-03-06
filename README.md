@@ -6,7 +6,7 @@ The publication is hosted at [this URL]([PUB-URL]).
 
 ## Data Description
 
-[DESCRIPTION OF THE DATA]
+Please see [README.md](data/README.md).
 
 ## Reproduce
 
