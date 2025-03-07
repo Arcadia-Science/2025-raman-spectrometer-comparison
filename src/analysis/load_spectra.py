@@ -135,26 +135,16 @@ def load_cc124_tap_spectra() -> tuple[list[RamanSpectrum], list[str]]:
     return spectra, dataframe
 
 
-def load_chlamy_spectra():
+def load_chlamy_spectra(data_directory: str) -> tuple[list[RamanSpectrum], pd.DataFrame]:
     """Load cell spectra from Wasatch 785 nm instrument."""
-    # Map out strain, media, species info
-    strains = ["CC-124", "CC-125", "CC-1373"]
-    media = ["MN", "TAP"]
-    species = {
-        "CC-124": "C. reinhardtii",
-        "CC-125": "C. reinhardtii",
-        "CC-1373": "C. smithii",
-    }
-
-    data_directory = DATA_DIRECTORY / "Wasatch_WP785X"
-    pattern = "enlighten*.csv"
-    reader = RamanSpectrum.from_wasatch_csvfile
+    pattern = "*-Site_*.csv"
+    reader = RamanSpectrum.from_generic_csvfile
 
     spectra = []
     instrument_data = []
     wavelength_data = []
-    strain_data = []
-    media_data = []
+    well_id_data = []
+    site_data = []
 
     # Loop through all the cell spectra within the directory
     for root, _, files in os.walk(data_directory):
@@ -162,31 +152,25 @@ def load_chlamy_spectra():
             if fnmatch(filename, pattern):
                 filepath = os.path.join(root, filename)
 
-                # Infer sample info from filepath
-                strain_matches = [re.search(strain, filepath) for strain in strains]
-                medium_matches = [re.search(medium, filepath) for medium in media]
-                strain = next(match for match in strain_matches if match is not None).group()
-                medium = next(match for match in medium_matches if match is not None).group()
-                if medium == "MN":
-                    medium = "M-N"
+                # Infer well_ID and site from filename
+                match = re.match(r"([A-H][1-9]|1[0-2])-Site_(\d+).csv", filename)
+                if match:
+                    well_id, site = match.groups()
 
-                # Load Wasatch spectra
-                spectrum = reader(filepath)
-                spectra.append(spectrum)
-                instrument_data.append("wasatch")
-                wavelength_data.append(785)
-                strain_data.append(strain)
-                media_data.append(medium)
+                    # Load Wasatch spectra
+                    spectrum = reader(filepath)
+                    spectra.append(spectrum)
+                    instrument_data.append("wasatch")
+                    wavelength_data.append(785)
+                    well_id_data.append(well_id)
+                    site_data.append(site)
 
-    # Create DataFrame in which to put instrument strain, species, and media info corresponding
-    # to each spectrum
+    # Create DataFrame in which to put instrument well_ID and site info corresponding to each spectrum
     data = {
         "instrument": instrument_data,
         "λ_nm": wavelength_data,
-        "species": None,  # placeholder
-        "strain": strain_data,
-        "medium": media_data,
+        "well_ID": well_id_data,
+        "site": site_data,
     }
     dataframe = pd.DataFrame(data)
-    dataframe["species"] = dataframe["strain"].map(species)
     return spectra, dataframe
