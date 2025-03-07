@@ -136,7 +136,7 @@ def load_cc124_tap_spectra() -> tuple[list[RamanSpectrum], list[str]]:
 
 
 def load_chlamy_spectra():
-    """Load cell spectra from each instrument."""
+    """Load cell spectra from Wasatch 785 nm instrument."""
     # Map out strain, media, species info
     strains = ["CC-124", "CC-125", "CC-1373"]
     media = ["MN", "TAP"]
@@ -146,89 +146,37 @@ def load_chlamy_spectra():
         "CC-1373": "C. smithii",
     }
 
-    mapped_tarpaths = {
-        ("openraman", 532): Path("data/OpenRAMAN/chlamy_spectra.tar"),
-        ("wasatch", 532): Path("data/Wasatch_WP532X/chlamy_spectra.tar"),
-        ("renishaw", 785): Path("data/Renishaw_Qontor/chlamy_spectra.tar"),
-        ("wasatch", 785): Path("data/Wasatch_WP785X/chlamy_spectra.tar"),
-    }
-    mapped_patterns = {
-        ("openraman", 532): "./chlamy_spectra/CC-*/Pos*.csv",
-        ("wasatch", 532): "./chlamy_spectra/CC-*/Pos*.csv",
-        ("renishaw", 785): "./chlamy_spectra/2024*_cells*.txt",
-        ("wasatch", 785): "./chlamy_spectra/enlighten*.csv",
-    }
-    mapped_readers = {
-        ("openraman", 532): RamanSpectrum.from_openraman_csvfiles,
-        ("wasatch", 532): RamanSpectrum.from_generic_csvfile,
-        ("renishaw", 785): read_renishaw_multipoint_txt,
-        ("wasatch", 785): RamanSpectrum.from_wasatch_csvfile,
-    }
+    data_directory = DATA_DIRECTORY / "Wasatch_WP785X"
+    pattern = "enlighten*.csv"
+    reader = RamanSpectrum.from_wasatch_csvfile
 
     spectra = []
     instrument_data = []
     wavelength_data = []
     strain_data = []
     media_data = []
-    # Big loopity loop through all the cell spectra within each tar file
-    for (instrument, wavelength_nm), tarpath in mapped_tarpaths.items():
-        pattern = mapped_patterns[(instrument, wavelength_nm)]
-        reader = mapped_readers[(instrument, wavelength_nm)]
-        with tarfile.open(tarpath, "r") as tar:
-            for member in tar.getmembers():
-                if fnmatch(member.name, pattern):
-                    # Infer sample info from filepath
-                    strain_matches = [re.search(strain, member.name) for strain in strains]
-                    medium_matches = [re.search(medium, member.name) for medium in media]
-                    strain = next(match for match in strain_matches if match is not None).group()
-                    medium = next(match for match in medium_matches if match is not None).group()
-                    if medium == "MN":
-                        medium = "M-N"
 
-                    # Load OpenRAMAN spectra
-                    if instrument == "openraman":
-                        spectrum = tar_wrapper_multiple(
-                            tarpath=tarpath,
-                            filenames=[
-                                member.name,
-                                "./chlamy_spectra/calibration_data/neon_4x.csv",
-                                "./chlamy_spectra/calibration_data/acetonitrile_4x.csv",
-                            ],
-                            function=reader,
-                        )
-                        spectra.append(spectrum)
-                        instrument_data.append(instrument)
-                        wavelength_data.append(wavelength_nm)
-                        strain_data.append(strain)
-                        media_data.append(medium)
+    # Loop through all the cell spectra within the directory
+    for root, _, files in os.walk(data_directory):
+        for filename in files:
+            if fnmatch(filename, pattern):
+                filepath = os.path.join(root, filename)
 
-                    # Load Renishaw spectra
-                    elif instrument == "renishaw":
-                        wavenumbers_cm1, intensities, _positions = tar_wrapper_single(
-                            tarpath=tarpath,
-                            filename=member.name,
-                            function=reader,
-                        )
-                        for i in range(intensities.shape[0]):
-                            spectrum = RamanSpectrum(wavenumbers_cm1, intensities[i, :])
-                            spectra.append(spectrum)
-                            instrument_data.append(instrument)
-                            wavelength_data.append(wavelength_nm)
-                            strain_data.append(strain)
-                            media_data.append(medium)
+                # Infer sample info from filepath
+                strain_matches = [re.search(strain, filepath) for strain in strains]
+                medium_matches = [re.search(medium, filepath) for medium in media]
+                strain = next(match for match in strain_matches if match is not None).group()
+                medium = next(match for match in medium_matches if match is not None).group()
+                if medium == "MN":
+                    medium = "M-N"
 
-                    # Load Wasatch spectra
-                    else:
-                        spectrum = tar_wrapper_single(
-                            tarpath=tarpath,
-                            filename=member.name,
-                            function=reader,
-                        )
-                        spectra.append(spectrum)
-                        instrument_data.append(instrument)
-                        wavelength_data.append(wavelength_nm)
-                        strain_data.append(strain)
-                        media_data.append(medium)
+                # Load Wasatch spectra
+                spectrum = reader(filepath)
+                spectra.append(spectrum)
+                instrument_data.append("wasatch")
+                wavelength_data.append(785)
+                strain_data.append(strain)
+                media_data.append(medium)
 
     # Create DataFrame in which to put instrument strain, species, and media info corresponding
     # to each spectrum
