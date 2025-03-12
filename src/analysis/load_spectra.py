@@ -153,7 +153,8 @@ def load_chlamy_spectra(data_directory: str) -> tuple[list[RamanSpectrum], pd.Da
                 filepath = os.path.join(root, filename)
 
                 # Infer well_ID and site from filename
-                match = re.match(r"([A-H][1-9]|1[0-2])-Site_(\d+).csv", filename)
+                # match = re.match(r"([A-H][1-9]|1[0-2])-Site_(\d+).csv", filename)
+                match = re.match(r"^([A-H](?:[1-9]|1[0-2]))-Site_(\d+)\.csv$", filename)
                 if match:
                     well_id, site = match.groups()
 
