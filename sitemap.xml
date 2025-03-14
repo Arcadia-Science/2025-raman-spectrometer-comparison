@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/index_v00.html</loc>
-    <lastmod>2025-01-15T00:01:17.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/SETUP.html</loc>
-    <lastmod>2025-01-15T00:01:17.375Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/CONTRIBUTING.html</loc>
-    <lastmod>2025-01-15T00:01:17.375Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/FAQ.html</loc>
-    <lastmod>2025-01-15T00:01:17.375Z</lastmod>
-  </url>
-  <url>
     <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/index.html</loc>
-    <lastmod>2025-01-15T00:01:17.388Z</lastmod>
+    <lastmod>2025-03-14T23:53:40.708Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/pages/SETUP.html</loc>
+    <lastmod>2025-03-14T23:53:40.708Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/pages/CONTRIBUTING.html</loc>
+    <lastmod>2025-03-14T23:53:40.708Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/pages/FAQ.html</loc>
+    <lastmod>2025-03-14T23:53:40.708Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Arcadia-Science.github.io/2025-raman-spectrometer-comparison/examples/demo.html</loc>
+    <lastmod>2025-03-14T23:53:40.641Z</lastmod>
   </url>
 </urlset>
