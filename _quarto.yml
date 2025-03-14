@@ -72,7 +72,7 @@ format:
     toc-expand: 2
 comments:
   giscus:
-    repo: Arcadia-Science/notebook-pub-template
+    repo: Arcadia-Science/2025-raman-spectrometer-comparison
     input-position: top
 reference-location: margin
 bibliography: ref.bib
