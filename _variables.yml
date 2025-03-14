@@ -2,4 +2,4 @@ pub:
   org: "Arcadia-Science"
   repo: "2025-raman-spectrometer-comparison"
   title: "Comparison of spontaneous Raman spectrometers"
-  google_analytics: "G-G0FG8RPQPH"
+  google_analytics_id: "G-G0FG8RPQPH"

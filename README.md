@@ -10,7 +10,7 @@ This code repository contains all materials required for creating and hosting th
 
 ## Data Description
 
-For each Raman spectroscopy instrument we tested, we acquired spectra of acetonitrile (a standard) and several different strains of unicellular algae within the genus, *Chlamydomonas*. 
+For each Raman spectroscopy instrument we tested, we acquired spectra of acetonitrile (a standard) and several different strains of unicellular algae within the genus, *Chlamydomonas*.
 The sample preparation for the cell cultures is described in the notebook pub, as is a table of acquisition settings and descriptions of each spectrometer.
 The data is organized into directories for each instrument, expanded below.
 
