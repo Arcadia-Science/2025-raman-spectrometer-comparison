@@ -179,3 +179,5 @@ cython_debug/
 
 # Adobe illustrator
 *.ai
+
+**/*.quarto_ipynb
