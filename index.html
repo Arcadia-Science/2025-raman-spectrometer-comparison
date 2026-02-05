@@ -86,7 +86,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./assets/logo_white.png" rel="icon" type="image/png">
+<link href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets/logo_white.png" rel="icon" type="image/png">
 <script src="site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
@@ -179,6 +179,8 @@ require(['plotly'], function(Plotly) {
 
 <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 <!-- logo-animation.html -->
+<!-- Hidden preload to ensure Quarto copies the video asset -->
+<link rel="preload" href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets/logo_movie.mp4" as="video" type="video/mp4">
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const brandLink = document.querySelector(".navbar-brand");
@@ -191,11 +193,12 @@ require(['plotly'], function(Plotly) {
     video.loop = false;
     video.playbackRate = 1.0;
 
-    // Get base URL from an existing resource we know works
-    const baseUrl = logoImg.src.substring(0, logoImg.src.lastIndexOf('/assets/'));
-
     const source = document.createElement("source");
-    source.src = baseUrl + "/assets/logo_movie.mp4";
+    // Github Pages sites are served from a path like `https://arcadia-science.github.io/<repo>/`
+    // so we need to add the repo name to the path when we're on Github Pages.
+    const siteRoot = (window.location.hostname.endsWith('github.io')) ? `/${window.location.pathname.split('/')[1]}` : '';
+    const themeAssets = `${siteRoot}/site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets`;
+    source.src = `${themeAssets}/logo_movie.mp4`;
     source.type = "video/mp4";
     video.appendChild(source);
 
@@ -267,17 +270,10 @@ require(['plotly'], function(Plotly) {
       // Function to load the YAML file
       async function loadAuthorData() {
         try {
-          // Get base URL from an existing resource we know works (navbar logo)
-          const navbarLogo = document.querySelector('.navbar-logo');
-          let baseUrl = '';
-
-          if (navbarLogo && navbarLogo.src) {
-            baseUrl = navbarLogo.src.substring(0, navbarLogo.src.lastIndexOf('/assets/'));
-          }
-
-          // Use the baseUrl to construct the path to authors.yml
-          const authorYamlPath = baseUrl + '/authors.yml';
-
+          // Github Pages sites are served from a path like `https://arcadia-science.github.io/<repo>/`
+          // so we need to add the repo name to the path when we're on Github Pages.
+          const siteRoot = (window.location.hostname.endsWith('github.io')) ? `/${window.location.pathname.split('/')[1]}` : '';
+          const authorYamlPath = `${siteRoot}/authors.yml`;
           const response = await fetch(authorYamlPath);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -409,15 +405,14 @@ require(['plotly'], function(Plotly) {
     const titleBanner = document.querySelector('.quarto-title-banner');
     const abstract = document.querySelector('.abstract');
     const navbar = document.querySelector('#quarto-header');
-    let prevRatio = {appear: 1, disappear: 1};
 
-    // Get base URL from an existing resource we know works (navbar logo)
-    const navbarLogo = document.querySelector('.navbar-logo');
-    if (navbarLogo) {
-      const baseUrl = navbarLogo.src.substring(0, navbarLogo.src.lastIndexOf('/assets/'));
-      const logoPath = baseUrl + '/assets/logo_white.png';
-      template.content.querySelector('.logo-white').src = logoPath;
-    }
+    // Github Pages sites are served from a path like `https://arcadia-science.github.io/<repo>/`
+    // so we need to add the repo name to the path when we're on Github Pages.
+    const siteRoot = (window.location.hostname.endsWith('github.io')) ? `/${window.location.pathname.split('/')[1]}` : '';
+    const themeAssets = `${siteRoot}/site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets`;
+    template.content.querySelector('.logo-white').src = `${themeAssets}/logo_white.png`;
+
+    let prevRatio = {appear: 1, disappear: 1};
 
     if (template && titleBanner && abstract && navbar) {
       // Add the mini title to the document body
@@ -576,9 +571,226 @@ require(['plotly'], function(Plotly) {
     }
   });
 </script>
+<!-- TODO: This solution currently generates the bibtex on the fly using a regex pattern. Ideally, the bibtex is a static file in the repository, similar to CITATION.cff. -->
+<template id="citation-box-template">
+  <div id="citation-popup" class="citation-popup">
+    <div class="citation-popup-content">
+      <div class="citation-header">
+        <h4>Cite this pub</h4>
+        <button id="close-citation-box" class="close-button" aria-label="Close citation box">×</button>
+      </div>
+      <div class="citation-tabs">
+        <button class="citation-tab-button active" data-format="styled">Arcadia</button>
+        <button class="citation-tab-button" data-format="bibtex">BibTeX</button>
+      </div>
+      <div class="citation-body">
+        <div id="styled-citation" class="citation-content active">
+          <p class="loading-text">Loading citation...</p>
+        </div>
+        <div id="bibtex-citation" class="citation-content">
+          <pre class="loading-text">Loading citation...</pre>
+        </div>
+      </div>
+      <div class="citation-footer">
+        <button id="copy-citation-button" class="copy-button">
+          <i class="bi bi-clipboard"></i> Copy to clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script>
+  // Initialize citation functionality after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCitationBox);
+  } else {
+    initCitationBox();
+  }
+
+  function initCitationBox() {
+    require.config({
+      paths: {
+        'js-yaml': 'https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min'
+      }
+    });
+
+    require(['js-yaml'], function (jsyaml) {
+
+      // Add citation box template to the document
+      const template = document.getElementById('citation-box-template');
+      const citationBoxContent = document.importNode(template.content, true);
+      document.body.appendChild(citationBoxContent);
+
+      // Find citation button
+      const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+      let citeButton = null;
+      for (const link of navLinks) {
+        if (link.textContent && link.textContent.trim() === 'Cite this pub') {
+          citeButton = link;
+          break;
+        }
+      }
+
+      // Reference elements (assuming they exist in the template)
+      const citationPopup = document.getElementById('citation-popup');
+      const closeButton = document.getElementById('close-citation-box');
+      const copyButton = document.getElementById('copy-citation-button');
+      const tabButtons = document.querySelectorAll('.citation-tab-button');
+      const styledEl = document.getElementById('styled-citation');
+      const bibtexEl = document.getElementById('bibtex-citation');
+
+      let pubData = {};
+      let isDataLoaded = false;
+
+      // --- Function to load the citation data ---
+      async function loadCitationData() {
+        // Set loading text (will be replaced on success)
+        styledEl.innerHTML = `<p class="loading-text">Loading citation...</p>`;
+        bibtexEl.innerHTML = `<pre class="loading-text">Loading citation...</pre>`;
+
+        // Fetch and parse CFF
+        const siteRoot = (window.location.hostname.endsWith('github.io')) ? `/${window.location.pathname.split('/')[1]}` : '';
+        const citationCffPath = `${siteRoot}/CITATION.cff`;
+        const response = await fetch(citationCffPath);
+        const text = await response.text();
+        const cffData = jsyaml.load(text);
+
+        const preferredCitation = cffData['preferred-citation'];
+        const title = preferredCitation.title;
+        const year = preferredCitation.year;
+        const doi = preferredCitation.doi;
+        const authors = preferredCitation.authors;
+
+        pubData = {
+          title: String(title).trim(),
+          year: String(year).trim(),
+          doi: String(doi).trim(),
+          authors: []
+        };
+
+        for (const author of authors) {
+          pubData.authors.push({
+            family: String(author['family-names']).trim(),
+            given: String(author['given-names']).trim()
+          });
+        }
+
+        updateCitations();
+        isDataLoaded = true;
+      }
+
+      function updateCitations() {
+        const url = pubData.doi ? `https://doi.org/${pubData.doi}` : window.location.href;
+
+        // Text citation
+        const styledAuthors = pubData.authors.map(author => {
+          const initials = author.given.split(/\s+/).map(name => name.charAt(0)).join('');
+          return `${author.family} ${initials}`;
+        }).join(', ');
+        styledEl.innerHTML = `<p>${styledAuthors}. (${pubData.year}). ${pubData.title}. ${url}</p>`;
+
+        // BibTeX citation
+        const firstAuthor = pubData.authors[0]; // Assume at least one author
+        const bibtexKey = `${firstAuthor.family.replace(/[^a-zA-Z0-9]/g, '')}${pubData.year}${pubData.title.split(' ')[0].replace(/[^a-zA-Z0-9]/g, '')}`;
+        const escapedTitle = pubData.title.replace(/([{}])/g, '\\$1');
+        const titleWithCaps = escapedTitle.replace(/\b([A-Z][a-zA-Z0-9'-]*)\b/g, '{$1}');
+        const bibtexAuthors = pubData.authors.map(author => `${author.family}, ${author.given}`).join(' and ');
+
+        const bibtexContentFinal = `@article{${bibtexKey},
+    author = {${bibtexAuthors}},
+    title = {${titleWithCaps}},
+    journal = {Arcadia Science},
+    year = {${pubData.year}},${pubData.doi ? `\n    doi = {${pubData.doi}},` : ''}
+    url = {${url}}
+}`;
+        bibtexEl.innerHTML = `<pre>${bibtexContentFinal}</pre>`;
+      }
+
+      // --- Function to toggle the citation box ---
+      function toggleCitationBox() {
+        const isVisible = citationPopup.classList.contains('visible');
+        if (!isVisible) {
+          citationPopup.classList.add('visible');
+          // Load data only once on first open
+          if (!isDataLoaded) {
+            loadCitationData(); // Assuming this will succeed
+          }
+        } else {
+          citationPopup.classList.remove('visible');
+        }
+      }
+
+      // --- Event listeners ---
+      citeButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggleCitationBox();
+      });
+
+      closeButton.addEventListener('click', function () {
+        citationPopup.classList.remove('visible');
+      });
+
+      // Tab switching
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          document.querySelectorAll('.citation-content').forEach(content => {
+            content.classList.remove('active');
+          });
+          const format = this.getAttribute('data-format');
+          document.getElementById(`${format}-citation`).classList.add('active');
+        });
+      });
+
+      // Copy to clipboard functionality
+      copyButton.addEventListener('click', function () {
+        const activeTab = document.querySelector('.citation-tab-button.active');
+        const activeFormat = activeTab.getAttribute('data-format');
+        const contentEl = document.getElementById(`${activeFormat}-citation`);
+
+        let textToCopy = '';
+        if (activeFormat === 'bibtex') {
+          textToCopy = contentEl.querySelector('pre').textContent.trim();
+        } else {
+          textToCopy = contentEl.querySelector('p').textContent.trim();
+        }
+
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            copyButton.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
+            setTimeout(() => {
+              copyButton.innerHTML = '<i class="bi bi-clipboard"></i> Copy to clipboard';
+            }, 2000);
+          })
+          .catch(err => {
+            console.error('Failed to copy text to clipboard: ', err);
+            copyButton.innerHTML = '<i class="bi bi-x-lg"></i> Failed';
+            setTimeout(() => {
+              copyButton.innerHTML = '<i class="bi bi-clipboard"></i> Copy to clipboard';
+            }, 2000);
+          });
+      });
+
+      // Close on escape key
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          if (citationPopup && citationPopup.classList.contains('visible')) {
+            citationPopup.classList.remove('visible');
+          }
+        }
+      });
+
+    });
+  }
+
+</script>
 
 
-<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/css/main.css">
+<link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/css/citation-box.css">
 
 
 
@@ -589,8 +801,8 @@ require(['plotly'], function(Plotly) {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="https://research.arcadiascience.com/" class="navbar-brand navbar-brand-logo">
-    <img src="./assets/logo_text.png" alt="" class="navbar-logo light-content">
-    <img src="./assets/logo_text.png" alt="" class="navbar-logo dark-content">
+    <img src="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets/logo_text.png" alt="" class="navbar-logo light-content">
+    <img src="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets/logo_text.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -627,6 +839,10 @@ require(['plotly'], function(Plotly) {
   <li class="nav-item">
     <a class="nav-link" href="./pages/SETUP.html"> 
 <span class="menu-text">Reproduce this pub</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./#"> 
+<span class="menu-text">Cite this pub</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./pages/CONTRIBUTING.html"> 
@@ -989,7 +1205,7 @@ Figure&nbsp;1: Acetonitrile spectra from each instrument. The four most prominen
 <p>By analyzing the same acetonitrile sample across instruments, we can control for sample-dependent variables, allowing us to make meaningful comparisons of the relative performance of each spectrometer based on full width at half maximum (FWHM)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> measurements. The reference peak at ~918 cm<sup>–1</sup> is comparatively isolated, so the FWHM won’t be impacted by other components of the spectrum. Let’s choose this peak to compare FWHM values, noting that the observed FWHM is influenced by both instrumental factors (e.g., quality of optical components) and sample characteristics (e.g., molecular dynamics and environmental conditions).</p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;While the FWHM serves as a useful indicator of spectral quality, it’s important to note that true spectral resolution is defined by the minimum separation at which two adjacent peaks can be distinguished rather than by individual peak widths alone.</p></div></div><div class="cell" data-tbl-cap-align="left" data-execution_count="3" data-tbl-cap-location="bottom">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>acetonitrile_peaks_dataframe.query(<span class="st">"reference == 918"</span>).set_index([<span class="st">"instrument"</span>, <span class="st">"λ_nm"</span>]).<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3" data-tbl-cap-location="bottom" data-tbl-cap-align="left">
+<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-align="left" data-execution_count="3" data-tbl-cap-location="bottom">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-acetonitrile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -1336,7 +1552,7 @@ Figure&nbsp;2: Peak SNR measurements and detected peaks in <em>C.&nbsp;reinhardt
 <div class="cell-output cell-output-stdout">
 <pre><code>Total number of Chlamydomonas spectra: 536</code></pre>
 </div>
-<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6" data-tbl-cap-location="bottom" data-tbl-cap-align="left">
+<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-align="left" data-execution_count="6" data-tbl-cap-location="bottom">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-chlamy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -2580,7 +2796,7 @@ Zhang F, Tang X, Tong A, Wang B, Wang J, Lv Y, Tang C, Wang J. (2020). Baseline 
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p><a href="https://www.arcadiascience.com/"><img src="./assets/logo_white.png" class="img-fluid" alt="Arcadia-Science" width="65"></a> Copyright 2025, Arcadia Science</p>
+<p><a href="https://www.arcadiascience.com/"><img src="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets/logo_white.png" class="img-fluid" alt="Arcadia-Science" width="65"></a> Copyright 2025, Arcadia Science</p>
 </div>   
     <div class="nav-footer-center">
 

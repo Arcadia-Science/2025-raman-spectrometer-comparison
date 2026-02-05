@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabbed Interface</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/css/main.css">
     <style>
-        @import url("css/main.css");
         body {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         .tabs {
             display: flex;
             border-bottom: 1px solid #ccc;
             margin-bottom: 0px;
         }
-        
+
         .tab-button {
             padding: 10px 20px;
             background-color: #f1f1f1;
@@ -28,16 +27,16 @@
             margin-right: 5px;
             font-weight: 500;
         }
-        
+
         .tab-button:hover {
             background-color: #ddd;
         }
-        
+
         .tab-button.active {
             background-color: #71ac5a;
             color: white;
         }
-        
+
         .tab-content {
             display: none;
             padding: 20px;
@@ -45,7 +44,7 @@
             border-top: none;
             animation: fadeIn 0.5s;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -55,29 +54,29 @@
         .tab-content {
             display: none;
         }
-        
+
         /* Show the default active tab */
         #tab1 {
             display: block;
         }
-        
+
         /* Sample table styling */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-        
+
         th, td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
-        
+
         th {
             background-color: #f8f8f8;
         }
-        
+
         tr:hover {
             background-color: #f1f1f1;
         }
@@ -85,7 +84,7 @@
 </head>
 <body>
     <h2>Acquisition parameters</h2>
-    
+
     <div class="tabs">
         <button class="tab-button active" onclick="openTab(event, 'tab1')">Horiba MacroRAM</button>
         <button class="tab-button" onclick="openTab(event, 'tab2')">Renishaw inVia Qontor</button>
@@ -306,13 +305,13 @@
             for (var i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
-            
+
             // Remove "active" class from all tab buttons
             var tabbuttons = document.getElementsByClassName("tab-button");
             for (var i = 0; i < tabbuttons.length; i++) {
                 tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
             }
-            
+
             // Show the current tab and add "active" class to the button
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
