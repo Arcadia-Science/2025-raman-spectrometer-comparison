@@ -6,7 +6,8 @@
 
 ## Purpose
 
-This code repository contains all materials required for creating and hosting the publication entitled, ["Comparison of spontaneous Raman spectrometers"](https://arcadia-science.github.io/2025-raman-spectrometer-comparison/).
+This code repository contains all materials required for creating and hosting the publication entitled, ["Comparison of spontaneous Raman spectrometers"](https://doi.org/10.57844/arcadia-b670-4291).
+
 
 ## Data Description
 
