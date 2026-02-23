@@ -96,10 +96,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-b8940f738eae8fa580d9c100a0a94d8e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0efc9ca32613c735a474efe03a7559eb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-32f1da01886fc290ec075b44fd66be2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/iconify-2.1.0/iconify-icon.min.js"></script>
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
@@ -178,6 +178,9 @@ require(['plotly'], function(Plotly) {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&amp;family=Chivo+Mono:ital,wght@0,100..900;1,100..900&amp;display=swap">
 <!-- logo-animation.html -->
 <!-- Hidden preload to ensure Quarto copies the video asset -->
 <link rel="preload" href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/assets/logo_movie.mp4" as="video" type="video/mp4">
@@ -1206,7 +1209,7 @@ Figure&nbsp;1: Acetonitrile spectra from each instrument. The four most prominen
 <p>By analyzing the same acetonitrile sample across instruments, we can control for sample-dependent variables, allowing us to make meaningful comparisons of the relative performance of each spectrometer based on full width at half maximum (FWHM)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> measurements. The reference peak at ~918 cm^-1 is comparatively isolated, so the FWHM won’t be impacted by other components of the spectrum. Let’s choose this peak to compare FWHM values, noting that the observed FWHM is influenced by both instrumental factors (e.g., quality of optical components) and sample characteristics (e.g., molecular dynamics and environmental conditions).</p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;While the FWHM serves as a useful indicator of spectral quality, it’s important to note that true spectral resolution is defined by the minimum separation at which two adjacent peaks can be distinguished rather than by individual peak widths alone.</p></div></div><div class="cell" data-tbl-cap-align="left" data-execution_count="3" data-tbl-cap-location="bottom">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>acetonitrile_peaks_dataframe.query(<span class="st">"reference == 918"</span>).set_index([<span class="st">"instrument"</span>, <span class="st">"λ_nm"</span>]).<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-tbl-cap-align="left" data-execution_count="3">
+<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3" data-tbl-cap-location="bottom" data-tbl-cap-align="left">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-acetonitrile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="25">
@@ -1553,7 +1556,7 @@ Figure&nbsp;2: Peak SNR measurements and detected peaks in <em>C. reinhardtii</e
 <div class="cell-output cell-output-stdout">
 <pre><code>Total number of Chlamydomonas spectra: 536</code></pre>
 </div>
-<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-tbl-cap-align="left" data-execution_count="6">
+<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6" data-tbl-cap-location="bottom" data-tbl-cap-align="left">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-chlamy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="28">
