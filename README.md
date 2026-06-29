@@ -45,7 +45,7 @@ $ tree -L 2 data/
 
 ### Working with the data
 
-The module, [`load_spectra.py`](../src/analysis/load_spectra.py), was created to facilitate loading each group of spectral data. This module provides three separate functions:
+The module, [`load_spectra.py`](src/analysis/load_spectra.py), was created to facilitate loading each group of spectral data. This module provides three separate functions:
 - `load_acetonitrile_spectra()` -> returns the set of acetonitrile spectra measured by each instrument, and a corresponding pandas DataFrame.
 - `load_cc124_tap_spectra()` -> returns the set of spectra for one particular strain of algal cells grown in one particular media (strain CC-124, grown in TAP) measured by each instrument, and a corresponding pandas DataFrame.
 - `load_chlamy_spectra()` -> returns the full set of spectra of all three algal strains grown in two different types of media measured by each instrument, and a corresponding pandas DataFrame.
@@ -54,8 +54,10 @@ See the notebook pub for example usage of these functions.
 
 ## Reproduce
 
-Please see [SETUP.qmd](SETUP.qmd).
+For full details, including installing Quarto and conda, please see [SETUP.qmd](pages/SETUP.qmd).
+
+This analysis was developed and tested on macOS (Apple Silicon).
 
 ## Contribute
 
-Please see [CONTRIBUTING.qmd](CONTRIBUTING.qmd).
+Please see [CONTRIBUTING.qmd](pages/CONTRIBUTING.qmd).
