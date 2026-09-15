@@ -827,7 +827,11 @@ require(['plotly'], function(Plotly) {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-iconify-qlementine-iconsversion-control-16-">    
         <li>
     <a class="dropdown-item" href="./index.html">
- <span class="dropdown-text">v1.1 (latest)</span></a>
+ <span class="dropdown-text">v1.2 (latest)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./index_v1.1.html">
+ <span class="dropdown-text">v1.1</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./index_v1.0.html">
@@ -1215,7 +1219,7 @@ Figure&nbsp;1: Acetonitrile spectra from each instrument. The four most prominen
 <p>By analyzing the same acetonitrile sample across instruments, we can control for sample-dependent variables, allowing us to make meaningful comparisons of the relative performance of each spectrometer based on full width at half maximum (FWHM)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> measurements. The reference peak at ~918 cm^-1 is comparatively isolated, so the FWHM won’t be impacted by other components of the spectrum. Let’s choose this peak to compare FWHM values, noting that the observed FWHM is influenced by both instrumental factors (e.g., quality of optical components) and sample characteristics (e.g., molecular dynamics and environmental conditions).</p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;While the FWHM serves as a useful indicator of spectral quality, it’s important to note that true spectral resolution is defined by the minimum separation at which two adjacent peaks can be distinguished rather than by individual peak widths alone.</p></div></div><div class="cell" data-tbl-cap-align="left" data-execution_count="3" data-tbl-cap-location="bottom">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>acetonitrile_peaks_dataframe.query(<span class="st">"reference == 918"</span>).set_index([<span class="st">"instrument"</span>, <span class="st">"λ_nm"</span>]).<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-execution_count="3" data-tbl-cap-align="left">
+<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-tbl-cap-align="left" data-execution_count="3">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-acetonitrile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="25">
@@ -1562,7 +1566,7 @@ Figure&nbsp;2: Peak SNR measurements and detected peaks in <em>C. reinhardtii</e
 <div class="cell-output cell-output-stdout">
 <pre><code>Total number of Chlamydomonas spectra: 536</code></pre>
 </div>
-<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-execution_count="6" data-tbl-cap-align="left">
+<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-tbl-cap-align="left" data-execution_count="6">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-chlamy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="28">

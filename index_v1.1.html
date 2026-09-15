@@ -840,7 +840,7 @@ require(['plotly'], function(Plotly) {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text"><iconify-icon role="img" inline="" icon="nrk:back" aria-label="Icon back from nrk Iconify.design set." title="Icon back from nrk Iconify.design set."></iconify-icon> Back to Pub</span></a>
   </li>  
 </ul>
@@ -935,7 +935,6 @@ require(['plotly'], function(Plotly) {
 
 
 
-<div class="additional-assets"><p class="additional-assets-label">Additional assets:</p><div class="additional-assets-list"><a class="additional-asset" href="https://github.com/Arcadia-Science/ramanalysis" rel="noopener"><span class="additional-asset-badge additional-asset-badge-code"><svg viewbox="0 0 18 9" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M0 5.1211L5.41408 7.91017V6.48048L1.7461 4.64063L5.41408 2.80078V1.38281L0 4.17188V5.1211Z" fill="currentColor"></path><path d="M6.77344 8.12111H8.14454L11.2734 0H9.90235L6.77344 8.12111Z" fill="currentColor"></path><path d="M11.8594 1.38281V2.80078L15.5508 4.64063L11.8594 6.48048V7.91017L17.2735 5.1211V4.16016L11.8594 1.38281Z" fill="currentColor"></path></svg></span><span class="additional-asset-name">Raman analysis software</span></a><a class="additional-asset" href="https://github.com/Arcadia-Science/2025-raman-spectrometer-comparison" rel="noopener"><span class="additional-asset-pair"><span class="additional-asset-badge additional-asset-badge-code"><svg viewbox="0 0 18 9" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M0 5.1211L5.41408 7.91017V6.48048L1.7461 4.64063L5.41408 2.80078V1.38281L0 4.17188V5.1211Z" fill="currentColor"></path><path d="M6.77344 8.12111H8.14454L11.2734 0H9.90235L6.77344 8.12111Z" fill="currentColor"></path><path d="M11.8594 1.38281V2.80078L15.5508 4.64063L11.8594 6.48048V7.91017L17.2735 5.1211V4.16016L11.8594 1.38281Z" fill="currentColor"></path></svg></span><span class="additional-asset-badge additional-asset-badge-graph"><svg viewbox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M0.155273 9.29299L4.12794 7.9922L8.42873 2.78906L10.4092 5.07422L12.8936 2.87109" stroke="currentColor" stroke-miterlimit="10" fill="none"></path><path d="M0.424805 0V13.1016H12.3194" stroke="currentColor" stroke-width="0.75" stroke-miterlimit="10" fill="none"></path></svg></span></span><span class="additional-asset-name">Notebook code and experimental data</span></a></div></div>
 <div class="callout callout-style-default callout-note callout-titled" title="AI usage disclosure">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1219,7 +1218,7 @@ Figure&nbsp;1: Acetonitrile spectra from each instrument. The four most prominen
 <p>By analyzing the same acetonitrile sample across instruments, we can control for sample-dependent variables, allowing us to make meaningful comparisons of the relative performance of each spectrometer based on full width at half maximum (FWHM)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> measurements. The reference peak at ~918 cm<sup>–1</sup> is comparatively isolated, so the FWHM won’t be impacted by other components of the spectrum. Let’s choose this peak to compare FWHM values, noting that the observed FWHM is influenced by both instrumental factors (e.g., quality of optical components) and sample characteristics (e.g., molecular dynamics and environmental conditions).</p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;While the FWHM serves as a useful indicator of spectral quality, it’s important to note that true spectral resolution is defined by the minimum separation at which two adjacent peaks can be distinguished rather than by individual peak widths alone.</p></div></div><div class="cell" data-tbl-cap-align="left" data-execution_count="3" data-tbl-cap-location="bottom">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>acetonitrile_peaks_dataframe.query(<span class="st">"reference == 918"</span>).set_index([<span class="st">"instrument"</span>, <span class="st">"λ_nm"</span>]).<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-tbl-cap-align="left" data-execution_count="3">
+<div id="tbl-acetonitrile" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3" data-tbl-cap-location="bottom" data-tbl-cap-align="left">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-acetonitrile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -1566,7 +1565,7 @@ Figure&nbsp;2: Peak SNR measurements and detected peaks in <em>C.&nbsp;reinhardt
 <div class="cell-output cell-output-stdout">
 <pre><code>Total number of Chlamydomonas spectra: 536</code></pre>
 </div>
-<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="bottom" data-tbl-cap-align="left" data-execution_count="6">
+<div id="tbl-chlamy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6" data-tbl-cap-location="bottom" data-tbl-cap-align="left">
 <figure class="quarto-float quarto-float-tbl figure">
 <div aria-describedby="tbl-chlamy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="6">
