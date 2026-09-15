@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Comparison of spontaneous Raman spectrometers –</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -91,15 +97,14 @@ div.csl-indent {
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b8940f738eae8fa580d9c100a0a94d8e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9b547512f6669b9f13ea580932fcad57.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-32f1da01886fc290ec075b44fd66be2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-1809f45cab6d19addede6ebc6eb20963.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/iconify-2.1.0/iconify-icon.min.js"></script>
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
@@ -794,6 +799,7 @@ require(['plotly'], function(Plotly) {
 
 <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/css/main.css">
 <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/css/citation-box.css">
+<link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/Arcadia-Science/arcadia-pub-theme/css/additional-assets.css">
 
 
 
@@ -1873,7 +1879,7 @@ Figure&nbsp;3: Raw (left) and preprocessed (right) spectra from <em>Chlamydomona
 </div>
 </div>
 <p>Our preprocessing pipeline worked well for the raw spectra, even though the instruments and excitation wavelengths vary greatly. For example, the fluorescence background for the 532&nbsp;nm and 785&nbsp;nm excitations had very different shapes but were managed well by the baseline subtraction we applied. As expected, the most significant factor driving spectral differences was the excitation wavelength, followed by which instrument we used. After controlling for these technical variables, the remaining differences in our processed spectra should mainly reveal the unique biochemical fingerprints of each algal strain and how they responded to different growth conditions.</p>
-<p>The 532&nbsp;nm spectra match well with peaks reported in some of the literature for <em>C.&nbsp;reinhardtii</em> CC-125, showing three major peaks ~1,006, ~1,156, and ~1,520&nbsp;cm<sup>–1</sup> that have been ascribed to carotenoid pigments <span class="citation" data-cites="pandey2022micro">(<a href="#ref-pandey2022micro" role="doc-biblioref">Pandey et al., 2022</a>)</span>. The 785&nbsp;nm spectra generally match those from additional literature on <em>Chlamydomonas</em> <span class="citation" data-cites="samek2010raman">(<a href="#ref-samek2010raman" role="doc-biblioref">Samek et al., 2010</a>)</span>, and we think a majority of the peaks are due to vibrational modes of pigments, based on studies with similarly pigmented species <span class="citation" data-cites="ishihara2023raman">(<a href="#ref-ishihara2023raman" role="doc-biblioref">Ishihara and Takahashi, 2023</a>)</span>. Finally, we noticed that cells cultured in nitrogen-depleted media don’t have the expected lipid peaks as seen in other research studying Raman-detectable responses of other algae to nitrogen depletion <span class="citation" data-cites="he2012coherent">(<a href="#ref-he2012coherent" role="doc-biblioref">He et al., 2012</a>)</span>. This change is also expected in <em>C.&nbsp;reinhardtii</em> (CC-125) <span class="citation" data-cites="msanne2012metabolic">(<a href="#ref-msanne2012metabolic" role="doc-biblioref">Msanne et al., 2012</a>)</span>. None of our spectra had strong peaks in the 2,800–3,000&nbsp;cm<sup>–1</sup> C-H stretch region, where lipid peaks are prominent, contrasting to the literature on other strains of <em>Chlamydomonas</em> <span class="citation" data-cites="sharma2015integrative">(<a href="#ref-sharma2015integrative" role="doc-biblioref">Sharma et al., 2015</a>)</span>. The absence of these peaks may be attributed to insufficient nitrogen depletion conditions in our cultures, though further investigation is required to know for sure.</p>
+<p>The 532&nbsp;nm spectra match well with peaks reported in some of the literature for <em>C.&nbsp;reinhardtii</em> CC-125, showing three major peaks ~1,006, ~1,156, and ~1,520&nbsp;cm<sup>–1</sup> that have been ascribed to carotenoid pigments <span class="citation" data-cites="pandey2022micro">(<a href="#ref-pandey2022micro" role="doc-biblioref">Pandey et al., 2022</a>)</span>. The 785&nbsp;nm spectra generally match those from additional literature on <em>Chlamydomonas</em> <span class="citation" data-cites="samek2010raman">(<a href="#ref-samek2010raman" role="doc-biblioref">Samek et al., 2010</a>)</span>, and we think a majority of the peaks are due to vibrational modes of pigments, based on studies with similarly pigmented species <span class="citation" data-cites="ishihara2023raman">(<a href="#ref-ishihara2023raman" role="doc-biblioref">Ishihara and Takahashi, 2023</a>)</span>. Finally, we noticed that cells cultured in nitrogen-depleted media don’t have the expected lipid peaks as seen in other research studying Raman-detectable responses of other algae to nitrogen depletion <span class="citation" data-cites="he2012coherent">(<a href="#ref-he2012coherent" role="doc-biblioref">He et al., 2012</a>)</span>. This change is also expected in <em>C.&nbsp;reinhardtii</em> (CC-125) <span class="citation" data-cites="msanne2012metabolic">(<a href="#ref-msanne2012metabolic" role="doc-biblioref">Msanne et al., 2012</a>)</span>. None of our spectra had strong peaks in the 2,800–3,000&nbsp;cm<sup>–1</sup> C-H stretch region, where lipid peaks are prominent, contrasting to the literature on other strains of <em>Chlamydomonas</em> <span class="citation" data-cites="sharma2015integrative">(<a href="#ref-sharma2015integrative" role="doc-biblioref"><span class="nocase">Sharma et al.</span>, 2015</a>)</span>. The absence of these peaks may be attributed to insufficient nitrogen depletion conditions in our cultures, though further investigation is required to know for sure.</p>
 </section>
 <section id="linear-discriminant-analysis-of-chlamydomonas-spectra" class="level3">
 <h3 class="anchored" data-anchor-id="linear-discriminant-analysis-of-chlamydomonas-spectra">Linear discriminant analysis of <em>Chlamydomonas</em> spectra</h3>
@@ -2315,7 +2321,7 @@ Pandey S, Archana G, Bagchi D. (2022). Micro-raman spectroscopy of the light-har
 Samek O, Jonáš A, Pilát Z, Zemánek P, Nedbal L, Třı́ska J, Kotas P, Trtı́lek M. (2010). Raman microspectroscopy of individual algal cells: Sensing unsaturation of storage lipids in vivo. <a href="https://doi.org/10.3390/s100908635">https://doi.org/10.3390/s100908635</a>
 </div>
 <div id="ref-sharma2015integrative" class="csl-entry" role="listitem">
-Sharma SK, Nelson DR, Abdrabu R, Khraiwesh B, Jijakli K, Arnoux M, O’Connor MJ, Bahmani T, Cai H, Khapli S, others. (2015). An integrative raman microscopy-based workflow for rapid in situ analysis of microalgal lipid bodies. <a href="https://doi.org/10.1186/s13068-015-0349-1">https://doi.org/10.1186/s13068-015-0349-1</a>
+<span class="nocase">Sharma SK, Nelson DR, Abdrabu R, Khraiwesh B, Jijakli K, Arnoux M, O’Connor MJ, Bahmani T, Cai H, Khapli S, others</span>. (2015). An integrative raman microscopy-based workflow for rapid in situ analysis of microalgal lipid bodies. <a href="https://doi.org/10.1186/s13068-015-0349-1">https://doi.org/10.1186/s13068-015-0349-1</a>
 </div>
 <div id="ref-shimanouchi1972tables" class="csl-entry" role="listitem">
 Shimanouchi T. (1972). Tables of molecular vibrational frequencies consolidated volume i. <a href="https://doi.org/10.6028/NBS.NSRDS.39">https://doi.org/10.6028/NBS.NSRDS.39</a>
